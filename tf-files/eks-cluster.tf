@@ -55,10 +55,28 @@ module "eks" {
   }
 }
 
-data "aws_eks_cluster" "cluster" {
-  name = module.eks.cluster_name
-}
+# resource "aws_eks_access_entry" "console_user" {
+#     cluster_name  = module.eks.cluster_name
+#     principal_arn = "arn:aws:iam::664047078509:user/Mitch"  # Replace with actual IAM Mitch
+#     type          = "STANDARD"
+#   }
 
-data "aws_eks_cluster_auth" "cluster" {
-  name = module.eks.cluster_name
-}
+#   resource "aws_eks_access_policy_association" "console_user_policy" {
+#     cluster_name  = module.eks.cluster_name
+#     principal_arn = "arn:aws:iam::664047078509:user/Mitch"  # Replace with actual IAM Mitch
+#     policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSViewPolicy"
+
+#     access_scope {
+#       type = "cluster"
+#     }
+
+#     depends_on = [aws_eks_access_entry.console_user]
+#   }
+
+# data "aws_eks_cluster" "cluster" {
+#   name = module.eks.cluster_name
+# }
+
+# data "aws_eks_cluster_auth" "cluster" {
+#   name = module.eks.cluster_name
+# }

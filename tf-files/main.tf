@@ -1,4 +1,10 @@
 terraform {
+  backend "s3" {
+    bucket       = "mitch-week-5-bucket"
+    key          = "terraform/tfstate"
+    region       = "eu-west-2"
+    use_lockfile = true
+  }
   required_version = ">= 1.0"
   required_providers {
     aws = {
@@ -12,12 +18,13 @@ terraform {
   }
 }
 
-#add your back end configuration here
-
 provider "aws" {
   region = var.region
+  profile                  = "week-5-user"
+  shared_config_files      = ["/Users/mitchelllewsey/.aws/config"]
+  shared_credentials_files = ["/Users/mitchelllewsey/.aws/credentials"]
 }
 
 locals {
-  cluster_name = #your cluster name
+  cluster_name = "mitch-k8s-cluster"
 }
