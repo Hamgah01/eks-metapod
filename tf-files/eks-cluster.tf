@@ -5,9 +5,21 @@ module "eks" {
   cluster_version = "1.29"
   subnet_ids      = data.aws_subnets.vpc_subnets.ids
 
+  cluster_endpoint_public_access = true
+
   tags = {
     Environment = "training"
   }
+
+  manage_aws_auth_configmap = true
+
+  aws_auth_users = [
+    {
+      userarn  = "arn:aws:iam::664047078509:user/nr-hg-metapod-project"
+      username = "nr-hg-metapod-project"
+      groups   = ["system:masters"] # Grants full admin access, allowing you to see nodes
+    }
+  ]
 
   vpc_id = aws_default_vpc.default_vpc.id
 
@@ -19,6 +31,7 @@ module "eks" {
       min_size       = 2
       max_size       = 3
       desired_size   = 2
+      subnet_ids     = data.aws_subnets.vpc_subnets.ids
 
       block_device_mappings = {
         xvda = {
@@ -39,6 +52,7 @@ module "eks" {
       min_size       = 1
       max_size       = 2
       desired_size   = 1
+      subnet_ids     = data.aws_subnets.vpc_subnets.ids
 
       block_device_mappings = {
         xvda = {
